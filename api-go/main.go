@@ -14,11 +14,8 @@ import (
 
 func main() {
 	app := fiber.New()
-
 	app.Use(cors.New())
-
 	api := app.Group("/api")
-
 	// Proteger rutas de matriz con JWT
 	matrixGroup := api.Group("/matrix")
 	matrixGroup.Use(middleware.JWTProtected())
