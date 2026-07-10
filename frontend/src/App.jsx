@@ -18,7 +18,7 @@ function App() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:4000/api/auth/login')
+      const res = await axios.post('https://api-matriz-node.onrender.com/api/auth/login')
       setToken(res.data.token)
       localStorage.setItem('token', res.data.token)
       setError(null)
@@ -65,9 +65,9 @@ function App() {
       }
 
       // 1. Enviar la matriz a los 3 endpoints de QR
-      const reqHouseholder = axios.post('http://localhost:3000/api/matrix/qrHouseholder', { matrix: parsedMatrix }, config)
-      const reqGramSchmidt = axios.post('http://localhost:3000/api/matrix/qrGramSchmidt', { matrix: parsedMatrix }, config)
-      const reqGivens = axios.post('http://localhost:3000/api/matrix/qrGivens', { matrix: parsedMatrix }, config)
+      const reqHouseholder = axios.post('https://api-matriz-go.onrender.com/api/matrix/qrHouseholder', { matrix: parsedMatrix }, config)
+      const reqGramSchmidt = axios.post('https://api-matriz-go.onrender.com/api/matrix/qrGramSchmidt', { matrix: parsedMatrix }, config)
+      const reqGivens = axios.post('https://api-matriz-go.onrender.com/api/matrix/qrGivens', { matrix: parsedMatrix }, config)
 
       const [resHouseholder, resGramSchmidt, resGivens] = await Promise.all([reqHouseholder, reqGramSchmidt, reqGivens])
       
@@ -78,9 +78,9 @@ function App() {
       setQrGivens({ q: resGivens.data.q, r: resGivens.data.r })
 
       // 2. Enviar a Node para estadísticas para cada método
-      const reqStatsHouseholder = axios.post('http://localhost:4000/api/stats', { matrices: [resHouseholder.data.q, resHouseholder.data.r] }, config)
-      const reqStatsGramSchmidt = axios.post('http://localhost:4000/api/stats', { matrices: [resGramSchmidt.data.q, resGramSchmidt.data.r] }, config)
-      const reqStatsGivens = axios.post('http://localhost:4000/api/stats', { matrices: [resGivens.data.q, resGivens.data.r] }, config)
+      const reqStatsHouseholder = axios.post('https://api-matriz-node.onrender.com/api/stats', { matrices: [resHouseholder.data.q, resHouseholder.data.r] }, config)
+      const reqStatsGramSchmidt = axios.post('https://api-matriz-node.onrender.com/api/stats', { matrices: [resGramSchmidt.data.q, resGramSchmidt.data.r] }, config)
+      const reqStatsGivens = axios.post('https://api-matriz-node.onrender.com/api/stats', { matrices: [resGivens.data.q, resGivens.data.r] }, config)
 
       const [statsResHouseholder, statsResGramSchmidt, statsResGivens] = await Promise.all([reqStatsHouseholder, reqStatsGramSchmidt, reqStatsGivens])
       
